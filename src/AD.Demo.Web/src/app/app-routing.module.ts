@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './home/home.component';
+import { PeopleComponent } from './people/people.component';
+import { PersonEditComponent } from './people/person-edit/person-edit.component';
 
 
 const routes: Routes = [
-  { path: '', component: HomeComponent }
+  { path: '', component: PeopleComponent },
+  { path: 'new', component: PersonEditComponent },
+  { path: 'edit/:id', component: PersonEditComponent }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -28,8 +28,6 @@ namespace AD.Demo.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-
             services.AddDbContext<TechTestContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("TechTestConnectionString"));
@@ -41,13 +39,17 @@ namespace AD.Demo.API
             });
 
             services.AddCors(options =>
-            {
-                options.AddPolicy("DefaultPolicy", builder =>
-                {
-                    builder.WithOrigins("http://localhost:4200")
-                        .AllowAnyOrigin();
-                });
-            });
+             {
+                 options.AddPolicy("default", policy =>
+                            {
+                                policy.WithOrigins("http://localhost:4200")
+                                    .AllowAnyHeader()
+                                    .AllowAnyMethod();
+                            });
+
+             });
+
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,11 +60,9 @@ namespace AD.Demo.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors("DefaultPolicy");
+            // app.UseHttpsRedirection();
 
             app.UseSwagger();
-
-            app.UseHttpsRedirection();
 
             app.UseSwaggerUI(c =>
             {
@@ -71,12 +71,15 @@ namespace AD.Demo.API
 
             app.UseRouting();
 
+            app.UseCors("default");
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
         }
     }
 }

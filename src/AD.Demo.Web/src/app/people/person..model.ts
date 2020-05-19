@@ -3,7 +3,14 @@ export class Person {
     firstName: string;
     lastName: string;
     isValid: boolean;
-    isAuthorized: boolean;
-    isActive: boolean;
-    colours: string[];
+    isAuthorised: boolean;
+    isEnabled: boolean;
+    colours: Colour[];
+}
+
+export class Colour {
+    id: number;
+    name: string;
+    isEnabled: boolean;
+    selected: boolean;
 }

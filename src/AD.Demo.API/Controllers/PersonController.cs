@@ -49,7 +49,9 @@ namespace AD.Demo.API.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var entity = _context.People.Find(id);
+            var entity = _context.People
+                            .Include("FavouriteColours.Colour")
+                            .SingleOrDefault(p => p.PersonId == id);
 
             if (entity != null)
             {
@@ -70,7 +72,7 @@ namespace AD.Demo.API.Controllers
                     })
                 };
 
-                return Ok(entity);
+                return Ok(model);
             }
 
             return NotFound();
@@ -93,8 +95,8 @@ namespace AD.Demo.API.Controllers
             return new StatusCodeResult(201);
         }
 
-        [HttpPut]
-        public IActionResult Put(int id, UpdatePersonModel model)
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] UpdatePersonModel model)
         {
             var entity = _context.People.Find(id);
 
@@ -108,9 +110,14 @@ namespace AD.Demo.API.Controllers
             entity.IsAuthorised = model.IsAuthorised;
             entity.IsEnabled = model.IsEnabled;
             entity.IsValid = model.IsValid;
-            entity.FavouriteColours.Clear();
 
-            foreach (var cid in model.ColourIds)
+            var favouriteColors = entity.FavouriteColours.ToList();
+            foreach (var fc in favouriteColors)
+            {
+                entity.FavouriteColours.Remove(fc);
+            }
+
+            foreach (var cid in model.ColourIds ?? new int[0])
             {
                 entity.FavouriteColours.Add(new FavouriteColours()
                 {

@@ -1,13 +1,15 @@
 <h1>People</h1>
 
-<table class="table">
+<ng-template #loadingMsg>Loading. Please wait&hellip;</ng-template>
+
+<table class="table" *ngIf="people$ | async; else loadingMsg">
     <thead>
         <tr>
             <th>ID</th>
             <th>First Name</th>
             <th>Last Name</th>
+            <th>Authorised</th>
             <th>Enabled</th>
-            <th>Authorized</th>
             <th>Valid</th>
             <th>Colours</th>
             <th></th>
@@ -18,11 +20,17 @@
             <td>{{person.id}}</td>
             <td>{{person.firstName}}</td>
             <td>{{person.lastName}}</td>
-            <td>{{person.isAuthorized}}</td>
-            <td>{{person.isEnabled}}</td>
-            <td>{{person.isValid}}</td>
-            <td>{{person.id}}</td>
-            <td>&hellip;</td>
+            <td>
+                <input disabled type="checkbox" [checked]="person.isAuthorised">
+            </td>
+            <td>
+                <input disabled type="checkbox" [checked]="person.isEnabled">
+            </td>
+            <td>
+                <input disabled type="checkbox" [checked]="person.isValid">
+            </td>
+            <td>{{ person.colours | colours }}</td>
+            <td><a [routerLink]="['/edit', person.id]">More&hellip;</a></td>
         </tr>
     </tbody>
 </table>
