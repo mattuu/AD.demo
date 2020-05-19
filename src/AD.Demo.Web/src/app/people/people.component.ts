@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PeopleService } from './people.service';
 import { Observable } from 'rxjs';
 import { Person } from './person..model';
+import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-people',
@@ -14,8 +15,10 @@ export class PeopleComponent implements OnInit {
 
   public people$: Observable<Person[]>;
 
+  public checkIcon: any = faCheckCircle;
+  public unCheckIcon: any = faTimesCircle;
+
   ngOnInit(): void {
     this.people$ = this._peopleService.getAll();
   }
-
 }
