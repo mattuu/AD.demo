@@ -1,7 +1,13 @@
 <h1>Amend Person Information</h1>
 
+<ng-template #loadingMsg>
+    <app-spinner></app-spinner>
+    Loading. Please wait&hellip;
+</ng-template>
+
+
 <div class="container">
-    <form *ngIf="person" (ngSubmit)="onSubmit()">
+    <form *ngIf="person; else loadingMsg" (ngSubmit)="onSubmit()">
         <div class="form-group">
             <label for="firstName">First Name</label>
             <input type="text" class="form-control" id="firstName" required [(ngModel)]="person.firstName"
@@ -47,6 +53,5 @@
             <button type="submit" class="btn btn-success">Submit</button>
             <a class="btn btn-light" [routerLink]="['/']">Cancel</a>
         </div>
-
     </form>
 </div>

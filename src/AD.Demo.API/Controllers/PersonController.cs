@@ -114,11 +114,6 @@ namespace AD.Demo.API.Controllers
             var favouriteColors = _context.FavouriteColours.Where(fc => fc.PersonId == id);
             _context.FavouriteColours.RemoveRange(favouriteColors);
 
-            // foreach (var fc in favouriteColors)
-            // {
-            //     entity.FavouriteColours.Remove(fc);
-            // }
-
             foreach (var cid in model.ColourIds ?? new int[0])
             {
                 entity.FavouriteColours.Add(new FavouriteColours()

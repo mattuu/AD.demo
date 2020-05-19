@@ -1,6 +1,10 @@
 <h1>My Avesome Colour App</h1>
 
-<ng-template #loadingMsg>Loading. Please wait&hellip;</ng-template>
+<ng-template #loadingMsg>
+    <app-spinner></app-spinner>
+    Loading. Please wait&hellip;
+</ng-template>
+
 
 <table class="table table-hover" *ngIf="people$ | async; else loadingMsg">
     <thead>
