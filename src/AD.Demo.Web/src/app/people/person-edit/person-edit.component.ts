@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PeopleService } from '../people.service';
-import { Person, Colour } from '../person..model';
+import { Person, Colour, ISelectable, Selectable, UpdatePerson } from '../person..model';
 import { ColoursService } from '../colours.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-person-edit',
@@ -14,10 +15,10 @@ export class PersonEditComponent implements OnInit {
   private _routeSubscription: any;
   public id: number;
   public person: Person;
-  public colours: Colour[];
+  public colours: ISelectable<Colour>[];
 
-  constructor(private _route: ActivatedRoute, 
-    private _peopleService: PeopleService, 
+  constructor(private _route: ActivatedRoute,
+    private _peopleService: PeopleService,
     private _coloursService: ColoursService,
     private _router: Router) { }
 
@@ -25,12 +26,36 @@ export class PersonEditComponent implements OnInit {
     this._routeSubscription = this._route.params.subscribe(params => {
       this.id = +params['id']; // (+) converts string 'id' to a number
 
-      this._peopleService.get(this.id).subscribe(person => {
-        this.person = person;
+      // this._peopleService.get(this.id).subscribe(person => {
+      //   this.person = person;
+      // })
+
+      const personPromise = this._peopleService.get(this.id);
+      const colourPromise = this._coloursService.getAll();
+
+
+      forkJoin([personPromise, colourPromise]).subscribe({
+        next: value => {
+          console.log(value);
+          // debugger;
+          this.person = value[0];
+
+          const usedColours = this.person.colours.map(c => c.id)
+          this.colours = value[1].map(c => new Selectable<Colour>(c, usedColours.indexOf(c.id) >= 0));
+        },
+
+        // complete: () => {
+        //   console.log('This is how it ends!');
+        //   debugger;
+        // },
       })
 
+
       this._coloursService.getAll().subscribe(colours => {
-        this.colours = colours;
+        // const usedColours = this.person.colours.map(c => c.id)
+
+        // const x = colours.map(c => new Selectable<Colour>(c, usedColours.indexOf(c.id) >= 0));
+        // this.colours = x;
       })
     });
 
@@ -41,22 +66,15 @@ export class PersonEditComponent implements OnInit {
   }
 
   onSubmit() {
-    this._peopleService.update(this.id, this.person).subscribe(res => {
+    const usedColours = this.colours.filter(c => c.selected)
+      .map(c => c.item.id);
+    
+    const model = new UpdatePerson(this.person, usedColours);
+
+    this._peopleService.update(this.id, model).subscribe(res => {
       if (res) {
         this._router.navigate(['']);
       }
     })
-  }
-
-  public toggleColor(id: number) {
-    console.log(id);
-    debugger;
-
-    const currentColours = this.person.colours.map(c => c.id);
-
-    if(currentColours.indexOf(id) > 0)
-    {
-      this.person.colours = this.person.colours.splice(currentColours.indexOf(id));
-    }
   }
 }

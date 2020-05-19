@@ -1,8 +1,8 @@
 <h1>Amend Person Information</h1>
 
-<pre>{{id}}</pre>
-
+<!-- <pre>{{id}}</pre>
 <pre>{{ person | json }}</pre>
+<pre>{{ colours | json }}</pre> -->
 
 <div class="container">
     <form *ngIf="person" (ngSubmit)="onSubmit()">
@@ -35,9 +35,9 @@
 
         <ul style="list-style-type: none;">
             <li *ngFor="let c of colours">
-                <input type="checkbox" class="form-control" id="{{c.name}}" name="{{c.name}}"
-                    (change)="toggleColor(c.id)" [(ngModel)]="c.selected">
-                <label for="{{c.name}}">{{c.name}}</label>
+                <input type="checkbox" class="form-control" id="{{c.item.name}}" name="{{c.item.name}}"
+                    [(ngModel)]="c.selected">
+                <label for="{{c.item.name}}">{{c.item.name}}</label>
             </li>
         </ul>
 

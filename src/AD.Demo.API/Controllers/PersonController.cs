@@ -111,11 +111,13 @@ namespace AD.Demo.API.Controllers
             entity.IsEnabled = model.IsEnabled;
             entity.IsValid = model.IsValid;
 
-            var favouriteColors = entity.FavouriteColours.ToList();
-            foreach (var fc in favouriteColors)
-            {
-                entity.FavouriteColours.Remove(fc);
-            }
+            var favouriteColors = _context.FavouriteColours.Where(fc => fc.PersonId == id);
+            _context.FavouriteColours.RemoveRange(favouriteColors);
+
+            // foreach (var fc in favouriteColors)
+            // {
+            //     entity.FavouriteColours.Remove(fc);
+            // }
 
             foreach (var cid in model.ColourIds ?? new int[0])
             {

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { Person } from './person..model';
+import { Person, UpdatePerson } from './person..model';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -26,7 +26,7 @@ export class PeopleService {
     return this._httpClient.get<Person>(`${environment.baseUrl}/person/${id}`)
   }
 
-  public update(id: number, model: Person): Observable<any> {
+  public update(id: number, model: UpdatePerson): Observable<any> {
     return this._httpClient.put(`${environment.baseUrl}/person/${id}`, JSON.stringify(model), httpOptions);
   }
 }
