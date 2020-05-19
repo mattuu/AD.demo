@@ -1,8 +1,8 @@
-<h1>People</h1>
+<h1>My Avesome Colour App</h1>
 
 <ng-template #loadingMsg>Loading. Please wait&hellip;</ng-template>
 
-<table class="table" *ngIf="people$ | async; else loadingMsg">
+<table class="table table-hover" *ngIf="people$ | async; else loadingMsg">
     <thead>
         <tr>
             <th>ID</th>
@@ -12,11 +12,10 @@
             <th>Enabled</th>
             <th>Valid</th>
             <th>Colours</th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let person of people$ | async">
+        <tr *ngFor="let person of people$ | async" [routerLink]="['/edit', person.id]">
             <td>{{person.id}}</td>
             <td>{{person.firstName}}</td>
             <td>{{person.lastName}}</td>
@@ -30,7 +29,6 @@
                 <input disabled type="checkbox" [checked]="person.isValid">
             </td>
             <td>{{ person.colours | colours }}</td>
-            <td><a [routerLink]="['/edit', person.id]">More&hellip;</a></td>
         </tr>
     </tbody>
 </table>

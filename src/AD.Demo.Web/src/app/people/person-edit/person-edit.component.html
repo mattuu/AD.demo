@@ -1,9 +1,5 @@
 <h1>Amend Person Information</h1>
 
-<!-- <pre>{{id}}</pre>
-<pre>{{ person | json }}</pre>
-<pre>{{ colours | json }}</pre> -->
-
 <div class="container">
     <form *ngIf="person" (ngSubmit)="onSubmit()">
         <div class="form-group">
@@ -17,32 +13,40 @@
             <input type="text" class="form-control" id="lastName" [(ngModel)]="person.lastName" name="lastName">
         </div>
 
-        <div class="form-group">
-            <label for="isEnabled">Enabled</label>
-            <input type="checkbox" class="form-control" id="isEnabled" [(ngModel)]="person.isEnabled" name="isEnabled">
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="isEnabled" [(ngModel)]="person.isEnabled"
+                name="isEnabled">
+            <label for="isEnabled" class="form-check-label">Enabled</label>
         </div>
 
-        <div class="form-group">
-            <label for="isAuthorized">Authorised</label>
-            <input type="checkbox" class="form-control" id="isAuthorised" [(ngModel)]="person.isAuthorised"
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="isAuthorised" [(ngModel)]="person.isAuthorised"
                 name="isAuthorised">
+            <label for="isAuthorised" class="form-check-label">Authorised</label>
+        </div>
+
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="isValid" [(ngModel)]="person.isValid" name="isValid">
+            <label for="isValid" class="form-check-label">Valid</label>
         </div>
 
         <div class="form-group">
-            <label for="isValid">Valid</label>
-            <input type="checkbox" class="form-control" id="isValid" [(ngModel)]="person.isValid" name="isValid">
+            <label>Favourite Colours:</label>
+            <ul style="list-style-type: none;">
+                <li *ngFor="let c of colours">
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="{{c.item.name}}" name="{{c.item.name}}"
+                            [(ngModel)]="c.selected">
+                        <label for="{{c.item.name}}" class="form-check-label">{{c.item.name}}</label>
+                    </div>
+                </li>
+            </ul>
         </div>
 
-        <ul style="list-style-type: none;">
-            <li *ngFor="let c of colours">
-                <input type="checkbox" class="form-control" id="{{c.item.name}}" name="{{c.item.name}}"
-                    [(ngModel)]="c.selected">
-                <label for="{{c.item.name}}">{{c.item.name}}</label>
-            </li>
-        </ul>
-
-        <button type="submit" class="btn btn-success">Submit</button>
-        <a class="btn btn-default" [routerLink]="['/']">back</a>
+        <div class="text-center">
+            <button type="submit" class="btn btn-success">Submit</button>
+            <a class="btn btn-light" [routerLink]="['/']">Cancel</a>
+        </div>
 
     </form>
 </div>
