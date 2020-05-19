@@ -30,13 +30,23 @@ namespace AD.Demo.API
         {
             services.AddControllers();
 
-            services.AddDbContext<TechTestContext>(options => {
+            services.AddDbContext<TechTestContext>(options =>
+            {
                 options.UseSqlServer(Configuration.GetConnectionString("TechTestConnectionString"));
             });
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+            });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("DefaultPolicy", builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200")
+                        .AllowAnyOrigin();
+                });
             });
         }
 
@@ -47,6 +57,8 @@ namespace AD.Demo.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors("DefaultPolicy");
 
             app.UseSwagger();
 

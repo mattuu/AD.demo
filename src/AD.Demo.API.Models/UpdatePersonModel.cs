@@ -14,6 +14,6 @@ namespace AD.Demo.API.Models
 
         public bool IsValid { get; set; }
 
-        public IEnumerable<int> ColorIds { get; set; }
+        public IEnumerable<int> ColourIds { get; set; }
     }
 }

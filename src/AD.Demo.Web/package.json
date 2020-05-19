@@ -1,5 +1,5 @@
 {
-  "name": "AD Demo App",
+  "name": "ad-demo-ppp",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -16,6 +16,7 @@
     "@angular/compiler": "~9.1.7",
     "@angular/core": "~9.1.7",
     "@angular/forms": "~9.1.7",
+    "@angular/material": "^9.2.4",
     "@angular/platform-browser": "~9.1.7",
     "@angular/platform-browser-dynamic": "~9.1.7",
     "@angular/router": "~9.1.7",
