@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AD.Demo.API.Models;
 using AD.Demo.DataAccess;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,9 +24,26 @@ namespace AD.Demo.API.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<People> Get()
+        public IEnumerable<PersonModel> Get()
         {
-            return _context.People.ToList();
+            return _context.People
+                .Include("FavouriteColours.Colour")
+                .Select(p => new PersonModel
+                {
+                    Id = p.PersonId,
+                    FirstName = p.FirstName,
+                    LastName = p.LastName,
+                    IsAuthorised = p.IsAuthorised,
+                    IsEnabled = p.IsEnabled,
+                    IsValid = p.IsValid,
+                    Colours = p.FavouriteColours.Select(c => new ColourModel
+                    {
+                        Id = c.ColourId,
+                        Name = c.Colour.Name,
+                        IsEnabled = c.Colour.IsEnabled
+                    })
+                })
+                .ToList();
         }
 
         [HttpGet("{id}")]
@@ -35,27 +53,48 @@ namespace AD.Demo.API.Controllers
 
             if (entity != null)
             {
+
+                var model = new PersonModel
+                {
+                    Id = entity.PersonId,
+                    FirstName = entity.FirstName,
+                    LastName = entity.LastName,
+                    IsAuthorised = entity.IsAuthorised,
+                    IsEnabled = entity.IsEnabled,
+                    IsValid = entity.IsValid,
+                    Colours = entity.FavouriteColours.Select(c => new ColourModel
+                    {
+                        Id = c.ColourId,
+                        Name = c.Colour.Name,
+                        IsEnabled = c.Colour.IsEnabled
+                    })
+                };
+
                 return Ok(entity);
             }
 
             return NotFound();
         }
-        
-        [HttpPost]
-        public IActionResult Post(People people)
-        {
-            if (_context.People.Find(people.PersonId) != null)
-            {
-                return Conflict();
-            }
 
-            _context.Add(people);
+        [HttpPost]
+        public IActionResult Post(CreatePersonModel model)
+        {
+            var entity = new People()
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                IsAuthorised = model.IsAuthorised,
+                IsEnabled = model.IsEnabled,
+                IsValid = model.IsValid,
+            };
+
+            _context.Add(entity);
             _context.SaveChanges();
             return new StatusCodeResult(201);
         }
 
         [HttpPut]
-        public IActionResult Put(int id, People people)
+        public IActionResult Put(int id, UpdatePersonModel model)
         {
             var entity = _context.People.Find(id);
 
@@ -64,14 +103,23 @@ namespace AD.Demo.API.Controllers
                 return BadRequest();
             }
 
-            entity.FirstName = people.FirstName;
-            entity.LastName = people.LastName;
-            entity.IsAuthorised = people.IsAuthorised;
-            entity.IsEnabled = people.IsEnabled;
-            entity.IsValid = people.IsValid;
+            entity.FirstName = model.FirstName;
+            entity.LastName = model.LastName;
+            entity.IsAuthorised = model.IsAuthorised;
+            entity.IsEnabled = model.IsEnabled;
+            entity.IsValid = model.IsValid;
+            entity.FavouriteColours.Clear();
+
+            foreach (var cid in model.ColourIds)
+            {
+                entity.FavouriteColours.Add(new FavouriteColours()
+                {
+                    ColourId = cid,
+                });
+            }
 
             _context.SaveChanges();
-            return Ok(people);
+            return Ok(model);
         }
 
         [HttpDelete]
