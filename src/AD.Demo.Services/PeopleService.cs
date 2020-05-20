@@ -46,7 +46,10 @@ namespace AD.Demo.Services
         {
             var entity = _context.People.Find(id);
 
-            if (entity == null) throw new EntityNotFoundException();
+            if (entity == null)
+            {
+                throw new EntityNotFoundException();
+            }
 
             var favouriteColors = _context.FavouriteColours.Where(fc => fc.PersonId == id);
             _context.FavouriteColours.RemoveRange(favouriteColors);
@@ -61,7 +64,10 @@ namespace AD.Demo.Services
                 .Include("FavouriteColours.Colour")
                 .SingleOrDefault(p => p.PersonId == id);
 
-            if (entity == null) throw new EntityNotFoundException();
+            if (entity == null)
+            {
+                throw new EntityNotFoundException();
+            }
 
             var model = new PersonModel
             {

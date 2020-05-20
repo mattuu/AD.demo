@@ -74,12 +74,6 @@ namespace AD.Demo.TestUtils
                         throw new ArgumentException(
                             "The specimen must be an instance of ApiController.",
                             nameof(specimen));
-
-                    //target.Request =
-                    //    (HttpRequestMessage) context.Resolve(
-                    //        typeof(HttpRequestMessage));
-
-                    //target.User = (IPrincipal) context.Resolve(typeof(IPrincipal));
                 }
             }
 

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using AD.Demo.DataAccess;
 using AD.Demo.Services;
+using AD.Demo.Services.Profiles;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -49,6 +51,8 @@ namespace AD.Demo.API
                             });
 
              });
+
+            services.AddAutoMapper(typeof(PeopleService));
 
             services.AddTransient<IColoursService, ColoursService>();
             services.AddTransient<IPeopleService, PeopleService>();
