@@ -55,5 +55,4 @@ namespace AD.Demo.API.Tests
             (actual as OkObjectResult).Value.ShouldBe(models);
         }
     }
-
 }

@@ -42,12 +42,22 @@ namespace AD.Demo.API.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] CreatePersonModel model)
         {
-            return Created(HttpContext.Request.Path, _peopleService.Create(model));
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Created(string.Empty, _peopleService.Create(model));
         }
 
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] UpdatePersonModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
                 return Ok(_peopleService.Update(id, model));
@@ -63,6 +73,7 @@ namespace AD.Demo.API.Controllers
         {
             try
             {
+                _peopleService.Delete(id);
                 return NoContent();
             }
             catch (EntityNotFoundException)

@@ -106,7 +106,10 @@ namespace AD.Demo.Services
         {
             var entity = _context.People.Find(id);
 
-            if (entity == null) throw new EntityNotFoundException();
+            if (entity == null)
+            {
+                throw new EntityNotFoundException();
+            }
 
             entity.FirstName = model.FirstName;
             entity.LastName = model.LastName;
