@@ -67,7 +67,11 @@ export class PersonEditComponent implements OnInit {
     this._routeSubscription.unsubscribe();
   }
 
-  onSubmit() {
+  onSubmit(form) {
+    if (form.form.invalid) {
+      return;
+    }
+
     const usedColours = this.colours.filter(c => c.selected)
       .map(c => c.item.id);
 
@@ -78,7 +82,7 @@ export class PersonEditComponent implements OnInit {
         this._router.navigate(['']);
       }
     };
-    
+
     if (this.isNew) {
       this._peopleService.create(model).subscribe(callback)
     } else {
