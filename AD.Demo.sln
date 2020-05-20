@@ -1,17 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30105.148
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{76C7456D-C3DF-436E-BFC0-92B341FF610C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AD.Demo.API", "src\AD.Demo.API\AD.Demo.API.csproj", "{42356F27-78BD-46FB-B921-CD31ABCC5123}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AD.Demo.API", "src\AD.Demo.API\AD.Demo.API.csproj", "{42356F27-78BD-46FB-B921-CD31ABCC5123}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AD.Demo.DataAccess", "src\AD.Demo.DataAccess\AD.Demo.DataAccess.csproj", "{8932CB64-64AA-460A-8987-62AB7689F5A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AD.Demo.DataAccess", "src\AD.Demo.DataAccess\AD.Demo.DataAccess.csproj", "{8932CB64-64AA-460A-8987-62AB7689F5A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AD.Demo.API.Models", "src\AD.Demo.API.Models\AD.Demo.API.Models.csproj", "{41EF074D-BC4F-4307-A4E6-7E2567123F92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AD.Demo.API.Models", "src\AD.Demo.API.Models\AD.Demo.API.Models.csproj", "{41EF074D-BC4F-4307-A4E6-7E2567123F92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AD.Demo.Services", "src\AD.Demo.Services\AD.Demo.Services.csproj", "{A9939D53-AC7C-4251-8432-3BF758070398}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AD.Demo.Services", "src\AD.Demo.Services\AD.Demo.Services.csproj", "{A9939D53-AC7C-4251-8432-3BF758070398}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{2DAE89BB-862F-4101-9AF9-DD41BB0F4A8A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AD.Demo.API.Tests", "test\AD.Demo.API.Tests\AD.Demo.API.Tests.csproj", "{EA09217B-9E2D-4715-9F7D-097CF0F752DF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AD.Demo.TestUtils", "test\AD.Demo.TestUtils\AD.Demo.TestUtils.csproj", "{8F97ECC7-EA10-4C67-AA7E-58FA5B19B327}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +27,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{42356F27-78BD-46FB-B921-CD31ABCC5123}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -74,11 +77,43 @@ Global
 		{A9939D53-AC7C-4251-8432-3BF758070398}.Release|x64.Build.0 = Release|Any CPU
 		{A9939D53-AC7C-4251-8432-3BF758070398}.Release|x86.ActiveCfg = Release|Any CPU
 		{A9939D53-AC7C-4251-8432-3BF758070398}.Release|x86.Build.0 = Release|Any CPU
+		{EA09217B-9E2D-4715-9F7D-097CF0F752DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA09217B-9E2D-4715-9F7D-097CF0F752DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA09217B-9E2D-4715-9F7D-097CF0F752DF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EA09217B-9E2D-4715-9F7D-097CF0F752DF}.Debug|x64.Build.0 = Debug|Any CPU
+		{EA09217B-9E2D-4715-9F7D-097CF0F752DF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EA09217B-9E2D-4715-9F7D-097CF0F752DF}.Debug|x86.Build.0 = Debug|Any CPU
+		{EA09217B-9E2D-4715-9F7D-097CF0F752DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA09217B-9E2D-4715-9F7D-097CF0F752DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA09217B-9E2D-4715-9F7D-097CF0F752DF}.Release|x64.ActiveCfg = Release|Any CPU
+		{EA09217B-9E2D-4715-9F7D-097CF0F752DF}.Release|x64.Build.0 = Release|Any CPU
+		{EA09217B-9E2D-4715-9F7D-097CF0F752DF}.Release|x86.ActiveCfg = Release|Any CPU
+		{EA09217B-9E2D-4715-9F7D-097CF0F752DF}.Release|x86.Build.0 = Release|Any CPU
+		{8F97ECC7-EA10-4C67-AA7E-58FA5B19B327}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F97ECC7-EA10-4C67-AA7E-58FA5B19B327}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F97ECC7-EA10-4C67-AA7E-58FA5B19B327}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8F97ECC7-EA10-4C67-AA7E-58FA5B19B327}.Debug|x64.Build.0 = Debug|Any CPU
+		{8F97ECC7-EA10-4C67-AA7E-58FA5B19B327}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8F97ECC7-EA10-4C67-AA7E-58FA5B19B327}.Debug|x86.Build.0 = Debug|Any CPU
+		{8F97ECC7-EA10-4C67-AA7E-58FA5B19B327}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F97ECC7-EA10-4C67-AA7E-58FA5B19B327}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F97ECC7-EA10-4C67-AA7E-58FA5B19B327}.Release|x64.ActiveCfg = Release|Any CPU
+		{8F97ECC7-EA10-4C67-AA7E-58FA5B19B327}.Release|x64.Build.0 = Release|Any CPU
+		{8F97ECC7-EA10-4C67-AA7E-58FA5B19B327}.Release|x86.ActiveCfg = Release|Any CPU
+		{8F97ECC7-EA10-4C67-AA7E-58FA5B19B327}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{42356F27-78BD-46FB-B921-CD31ABCC5123} = {76C7456D-C3DF-436E-BFC0-92B341FF610C}
 		{8932CB64-64AA-460A-8987-62AB7689F5A7} = {76C7456D-C3DF-436E-BFC0-92B341FF610C}
 		{41EF074D-BC4F-4307-A4E6-7E2567123F92} = {76C7456D-C3DF-436E-BFC0-92B341FF610C}
 		{A9939D53-AC7C-4251-8432-3BF758070398} = {76C7456D-C3DF-436E-BFC0-92B341FF610C}
+		{EA09217B-9E2D-4715-9F7D-097CF0F752DF} = {2DAE89BB-862F-4101-9AF9-DD41BB0F4A8A}
+		{8F97ECC7-EA10-4C67-AA7E-58FA5B19B327} = {2DAE89BB-862F-4101-9AF9-DD41BB0F4A8A}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C63A457D-761A-4C8D-8D8D-7574E0F9F324}
 	EndGlobalSection
 EndGlobal
