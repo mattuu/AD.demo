@@ -33,5 +33,25 @@ namespace AD.Demo.API.Controllers
                 IsEnabled = c.IsEnabled
             });
         }
+
+        [HttpGet("stats")]
+        public IActionResult GetStats()
+        {
+            var data = _context.Colours
+                .Include(c => c.FavouriteColours)
+                .ToList()
+                .Select(c => new
+                {
+                    Color = new ColourModel
+                    {
+                        Id = c.ColourId,
+                        Name = c.Name,
+                        IsEnabled = c.IsEnabled
+                    },
+                    Count = c.FavouriteColours.Count()
+                });
+
+            return Ok(data);
+        }
     }
 }
