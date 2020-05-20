@@ -1,4 +1,4 @@
-<h1>Amend Person Information</h1>
+<h1>{{heading}} Person Information</h1>
 
 <ng-template #loadingMsg>
     <app-spinner></app-spinner>
@@ -7,7 +7,7 @@
 
 
 <div class="container">
-    <form *ngIf="person; else loadingMsg" (ngSubmit)="onSubmit()" novalidate>
+    <form *ngIf="!busy; else loadingMsg" (ngSubmit)="onSubmit()" novalidate>
         <div class="form-group">
             <label for="firstName">First Name</label>
             <input type="text" class="form-control" id="firstName" [(ngModel)]="person.firstName" name="firstName"
@@ -63,7 +63,7 @@
                 <button type="submit" class="btn btn-success">Submit</button>
                 <a class="btn btn-light" [routerLink]="['/']">Cancel</a>
             </div>
-            <div class="col-6">
+            <div class="col-6" *ngIf="!isNew">
                 <button type="button" class="btn btn-danger float-right" (click)="deletePerson()">Delete</button>
             </div>
         </div>

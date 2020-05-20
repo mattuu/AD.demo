@@ -79,7 +79,7 @@ namespace AD.Demo.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(CreatePersonModel model)
+        public IActionResult Post([FromBody] CreatePersonModel model)
         {
             var entity = new People()
             {
@@ -90,9 +90,18 @@ namespace AD.Demo.API.Controllers
                 IsValid = model.IsValid,
             };
 
+            foreach (var cid in model.ColourIds ?? new int[0])
+            {
+                entity.FavouriteColours.Add(new FavouriteColours()
+                {
+                    ColourId = cid,
+                });
+            }
+
+
             _context.Add(entity);
             _context.SaveChanges();
-            return new StatusCodeResult(201);
+            return Created("", entity);
         }
 
         [HttpPut("{id}")]

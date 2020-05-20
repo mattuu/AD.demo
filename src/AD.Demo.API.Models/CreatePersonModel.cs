@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace AD.Demo.API.Models
 {
     public class CreatePersonModel
@@ -11,5 +13,8 @@ namespace AD.Demo.API.Models
         public bool IsEnabled { get; set; }
 
         public bool IsValid { get; set; }
+
+        public IEnumerable<int> ColourIds { get; set; }
+
     }
 }

@@ -17,6 +17,13 @@ export class PersonEditComponent implements OnInit {
   public person: Person;
   public colours: ISelectable<Colour>[];
 
+  public busy: boolean = true;
+  public heading: string = 'Amend';
+
+  public get isNew(): boolean {
+    return isNaN(this.id);
+  }
+
   constructor(private _route: ActivatedRoute,
     private _peopleService: PeopleService,
     private _coloursService: ColoursService,
@@ -26,18 +33,32 @@ export class PersonEditComponent implements OnInit {
     this._routeSubscription = this._route.params.subscribe(params => {
       this.id = +params['id']; // (+) converts string 'id' to a number
 
-      const personPromise = this._peopleService.get(this.id);
       const colourPromise = this._coloursService.getAll();
 
+      if (this.isNew) {
+        this.heading = 'Enter';
 
-      forkJoin([personPromise, colourPromise]).subscribe({
-        next: value => {
-          this.person = value[0];
+        this.person = new Person();
 
-          const usedColours = this.person.colours.map(c => c.id)
-          this.colours = value[1].map(c => new Selectable<Colour>(c, usedColours.indexOf(c.id) >= 0));
-        },
-      })
+        colourPromise.subscribe(val => {
+          this.colours = val.map(c => new Selectable<Colour>(c, false));
+          this.busy = false;
+        })
+
+      } else {
+        const personPromise = this._peopleService.get(this.id);
+
+        forkJoin([personPromise, colourPromise]).subscribe({
+          next: value => {
+            this.person = value[0];
+
+            const usedColours = this.person.colours.map(c => c.id)
+            this.colours = value[1].map(c => new Selectable<Colour>(c, usedColours.indexOf(c.id) >= 0));
+
+            this.busy = false;
+          },
+        })
+      }
     });
 
   }
@@ -52,11 +73,17 @@ export class PersonEditComponent implements OnInit {
 
     const model = new UpdatePerson(this.person, usedColours);
 
-    this._peopleService.update(this.id, model).subscribe(res => {
+    const callback = (res) => {
       if (res) {
         this._router.navigate(['']);
       }
-    })
+    };
+    
+    if (this.isNew) {
+      this._peopleService.create(model).subscribe(callback)
+    } else {
+      this._peopleService.update(this.id, model).subscribe(callback)
+    }
   }
 
   public deletePerson() {

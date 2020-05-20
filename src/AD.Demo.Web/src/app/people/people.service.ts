@@ -26,6 +26,10 @@ export class PeopleService {
     return this._httpClient.get<Person>(`${environment.baseUrl}/person/${id}`)
   }
 
+  public create(model: UpdatePerson): Observable<any> {
+    return this._httpClient.post(`${environment.baseUrl}/person`, JSON.stringify(model), httpOptions);
+  }
+
   public update(id: number, model: UpdatePerson): Observable<any> {
     return this._httpClient.put(`${environment.baseUrl}/person/${id}`, JSON.stringify(model), httpOptions);
   }
