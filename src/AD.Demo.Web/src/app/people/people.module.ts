@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 
 import { PeopleComponent } from './people.component';
 import { PersonEditComponent } from './person-edit/person-edit.component';
-import { ColoursIndicatorComponent } from './colours-indicator/colours-indicator.component';
 import { SharedModule } from '../shared/shared.module';
+import { ColourStatsComponent } from './colour-stats/colour-stats.component';
 
 @NgModule({
   declarations: [
     PeopleComponent,
     PersonEditComponent,
-    ColoursIndicatorComponent
+    ColourStatsComponent
   ],
   imports: [
     CommonModule,

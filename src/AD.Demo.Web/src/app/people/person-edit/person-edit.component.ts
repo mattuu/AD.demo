@@ -49,7 +49,7 @@ export class PersonEditComponent implements OnInit {
   onSubmit() {
     const usedColours = this.colours.filter(c => c.selected)
       .map(c => c.item.id);
-    
+
     const model = new UpdatePerson(this.person, usedColours);
 
     this._peopleService.update(this.id, model).subscribe(res => {
@@ -57,5 +57,13 @@ export class PersonEditComponent implements OnInit {
         this._router.navigate(['']);
       }
     })
+  }
+
+  public deletePerson() {
+    if (window.confirm("Are you sure?")) {
+      this._peopleService.delete(this.id).subscribe(res => {
+        this._router.navigate(['']);
+      });
+    }
   }
 }

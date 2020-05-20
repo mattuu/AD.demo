@@ -42,13 +42,13 @@ namespace AD.Demo.DataAccess
                 entity.HasOne(d => d.Colour)
                     .WithMany(p => p.FavouriteColours)
                     .HasForeignKey(d => d.ColourId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_FavouriteColours_Colours");
 
                 entity.HasOne(d => d.Person)
                     .WithMany(p => p.FavouriteColours)
                     .HasForeignKey(d => d.PersonId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_FavouriteColours_People");
             });
 

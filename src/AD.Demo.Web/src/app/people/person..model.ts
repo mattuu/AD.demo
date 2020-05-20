@@ -47,3 +47,7 @@ export class UpdatePerson {
         this.colourIds = colours;
     }
 }
+
+export class ColourStats extends Colour {
+    count: number;
+}

@@ -126,7 +126,7 @@ namespace AD.Demo.API.Controllers
             return Ok(model);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             var entity = _context.People.Find(id);
@@ -135,6 +135,9 @@ namespace AD.Demo.API.Controllers
             {
                 return BadRequest();
             }
+
+            var favouriteColors = _context.FavouriteColours.Where(fc => fc.PersonId == id);
+            _context.FavouriteColours.RemoveRange(favouriteColors);
 
             _context.Remove(entity);
             _context.SaveChanges();

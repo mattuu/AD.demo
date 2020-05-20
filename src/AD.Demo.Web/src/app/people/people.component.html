@@ -1,4 +1,4 @@
-<h1>My Avesome Colour App</h1>
+<h1>My Awesome Colour App</h1>
 
 <ng-template #loadingMsg>
     <app-spinner></app-spinner>
@@ -33,8 +33,14 @@
                 <fa-icon *ngIf="person.isValid" [icon]="checkIcon" class="text-success"></fa-icon>
             </td>
             <td class="text-center">
-                <app-colours-indicator [colours]="person.colours"></app-colours-indicator>
+                <ul class="colours-indicator">
+                    <li *ngFor="let c of person.colours">
+                        <app-colour-icon [colourName]="c.name"></app-colour-icon>
+                    </li>
+                </ul>
             </td>
         </tr>
     </tbody>
 </table>
+
+<app-colour-stats></app-colour-stats>

@@ -29,4 +29,8 @@ export class PeopleService {
   public update(id: number, model: UpdatePerson): Observable<any> {
     return this._httpClient.put(`${environment.baseUrl}/person/${id}`, JSON.stringify(model), httpOptions);
   }
+
+  public delete(id: number): Observable<any> {
+    return this._httpClient.delete(`${environment.baseUrl}/person/${id}`, httpOptions);
+  }
 }

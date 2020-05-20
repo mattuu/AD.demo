@@ -6,9 +6,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SpinnerComponent } from './components';
+import { ColourIconComponent } from './components/colour-icon/colour-icon.component';
 
 @NgModule({
-  declarations: [SpinnerComponent],
+  declarations: [SpinnerComponent, ColourIconComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -21,7 +22,8 @@ import { SpinnerComponent } from './components';
     HttpClientModule,
     FontAwesomeModule,
     RouterModule,
-    SpinnerComponent
+    SpinnerComponent,
+    ColourIconComponent
   ]
 })
 export class SharedModule { }

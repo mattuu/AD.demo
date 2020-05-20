@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Colour } from './person..model';
+import { Colour, ColourStats } from './person..model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -13,5 +13,9 @@ export class ColoursService {
 
   public getAll(): Observable<Colour[]> {
     return this._httpClient.get<Colour[]>(`${environment.baseUrl}/colour`);
+  }
+
+  public getStats(): Observable<ColourStats[]> {
+    return this._httpClient.get<ColourStats[]>(`${environment.baseUrl}/colour/stats`);
   }
 }

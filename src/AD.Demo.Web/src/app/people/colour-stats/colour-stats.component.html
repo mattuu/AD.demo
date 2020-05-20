@@ -1,0 +1,15 @@
+<ng-template #loadingMsg>
+    <app-spinner></app-spinner>
+    Loading. Please wait&hellip;
+</ng-template>
+
+<div class="card">
+    <h5 class="card-header">Colour Statistics</h5>
+    <div class="card-body">
+        <div class="row" *ngIf="stats$ | async; else loadingMsg">
+            <div *ngFor="let c of stats$ | async" class="col text-center">
+                <h6><app-colour-icon [colourName]='c.name'></app-colour-icon> {{ c.count }}</h6>
+            </div>
+        </div>
+    </div>
+</div>

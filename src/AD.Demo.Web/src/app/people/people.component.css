@@ -1,3 +1,15 @@
 table > tbody > tr {
     cursor: pointer;
 }
+
+ul.colours-indicator {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    float: left;
+}
+
+ul.colours-indicator li {
+    display: inline;
+    margin: 0 3px;
+}

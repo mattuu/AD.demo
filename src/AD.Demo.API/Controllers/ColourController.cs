@@ -42,12 +42,9 @@ namespace AD.Demo.API.Controllers
                 .ToList()
                 .Select(c => new
                 {
-                    Color = new ColourModel
-                    {
-                        Id = c.ColourId,
-                        Name = c.Name,
-                        IsEnabled = c.IsEnabled
-                    },
+                    Id = c.ColourId,
+                    Name = c.Name,
+                    IsEnabled = c.IsEnabled,
                     Count = c.FavouriteColours.Count()
                 });
 
