@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AD.Demo.DataAccess;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using AD.Demo.API.Models;
+using AD.Demo.Services;
 
 namespace AD.Demo.API.Controllers
 {
@@ -15,39 +12,24 @@ namespace AD.Demo.API.Controllers
     public class ColourController : ControllerBase
     {
         private readonly ILogger<ColourController> _logger;
-        private readonly TechTestContext _context;
+        private readonly IColoursService _coloursService;
 
-        public ColourController(ILogger<ColourController> logger, TechTestContext context)
+        public ColourController(ILogger<ColourController> logger, IColoursService coloursService)
         {
-            _logger = logger;
-            _context = context;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _coloursService = coloursService ?? throw new ArgumentNullException(nameof(coloursService));
         }
 
         [HttpGet]
         public IEnumerable<ColourModel> Get()
         {
-            return _context.Colours.Select(c => new ColourModel
-            {
-                Id = c.ColourId,
-                Name = c.Name,
-                IsEnabled = c.IsEnabled
-            });
+            return _coloursService.GetAll();
         }
 
         [HttpGet("stats")]
         public IActionResult GetStats()
         {
-            var data = _context.Colours
-                .Include(c => c.FavouriteColours)
-                .ToList()
-                .Select(c => new
-                {
-                    Id = c.ColourId,
-                    Name = c.Name,
-                    IsEnabled = c.IsEnabled,
-                    Count = c.FavouriteColours.Count()
-                });
-
+            var data = _coloursService.GetStats();
             return Ok(data);
         }
     }

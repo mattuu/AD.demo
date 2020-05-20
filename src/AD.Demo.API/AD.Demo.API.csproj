@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AD.Demo.DataAccess\AD.Demo.DataAccess.csproj" />
     <ProjectReference Include="..\AD.Demo.API.Models\AD.Demo.API.Models.csproj" />
+    <ProjectReference Include="..\AD.Demo.Services\AD.Demo.Services.csproj" />
   </ItemGroup>
 
 

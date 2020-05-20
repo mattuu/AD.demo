@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AD.Demo.DataAccess;
+using AD.Demo.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -48,6 +49,9 @@ namespace AD.Demo.API
                             });
 
              });
+
+            services.AddTransient<IColoursService, ColoursService>();
+            services.AddTransient<IPeopleService, PeopleService>();
 
             services.AddControllers();
         }

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AD.Demo.API.Models;
-using AD.Demo.DataAccess;
+using AD.Demo.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace AD.Demo.API.Controllers
@@ -15,142 +12,63 @@ namespace AD.Demo.API.Controllers
     public class PersonController : ControllerBase
     {
         private readonly ILogger<PersonController> _logger;
-        private readonly TechTestContext _context;
+        private readonly IPeopleService _peopleService;
 
-        public PersonController(ILogger<PersonController> logger, TechTestContext context)
+        public PersonController(ILogger<PersonController> logger, IPeopleService peopleService)
         {
-            _logger = logger;
-            _context = context;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _peopleService = peopleService ?? throw new ArgumentNullException(nameof(peopleService));
         }
 
         [HttpGet]
         public IEnumerable<PersonModel> Get()
         {
-            return _context.People
-                .Include("FavouriteColours.Colour")
-                .Select(p => new PersonModel
-                {
-                    Id = p.PersonId,
-                    FirstName = p.FirstName,
-                    LastName = p.LastName,
-                    IsAuthorised = p.IsAuthorised,
-                    IsEnabled = p.IsEnabled,
-                    IsValid = p.IsValid,
-                    Colours = p.FavouriteColours.Select(c => new ColourModel
-                    {
-                        Id = c.ColourId,
-                        Name = c.Colour.Name,
-                        IsEnabled = c.Colour.IsEnabled
-                    })
-                })
-                .ToList();
+            return _peopleService.GetAll();
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var entity = _context.People
-                            .Include("FavouriteColours.Colour")
-                            .SingleOrDefault(p => p.PersonId == id);
-
-            if (entity != null)
+            try
             {
-
-                var model = new PersonModel
-                {
-                    Id = entity.PersonId,
-                    FirstName = entity.FirstName,
-                    LastName = entity.LastName,
-                    IsAuthorised = entity.IsAuthorised,
-                    IsEnabled = entity.IsEnabled,
-                    IsValid = entity.IsValid,
-                    Colours = entity.FavouriteColours.Select(c => new ColourModel
-                    {
-                        Id = c.ColourId,
-                        Name = c.Colour.Name,
-                        IsEnabled = c.Colour.IsEnabled
-                    })
-                };
-
-                return Ok(model);
+                return Ok(_peopleService.Find(id));
             }
-
-            return NotFound();
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
         }
 
         [HttpPost]
         public IActionResult Post([FromBody] CreatePersonModel model)
         {
-            var entity = new People()
-            {
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                IsAuthorised = model.IsAuthorised,
-                IsEnabled = model.IsEnabled,
-                IsValid = model.IsValid,
-            };
-
-            foreach (var cid in model.ColourIds ?? new int[0])
-            {
-                entity.FavouriteColours.Add(new FavouriteColours()
-                {
-                    ColourId = cid,
-                });
-            }
-
-
-            _context.Add(entity);
-            _context.SaveChanges();
-            return Created("", entity);
+            return Created(HttpContext.Request.Path, _peopleService.Create(model));
         }
 
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] UpdatePersonModel model)
         {
-            var entity = _context.People.Find(id);
-
-            if (entity == null)
+            try
+            {
+                return Ok(_peopleService.Update(id, model));
+            }
+            catch (EntityNotFoundException)
             {
                 return BadRequest();
             }
-
-            entity.FirstName = model.FirstName;
-            entity.LastName = model.LastName;
-            entity.IsAuthorised = model.IsAuthorised;
-            entity.IsEnabled = model.IsEnabled;
-            entity.IsValid = model.IsValid;
-
-            var favouriteColors = _context.FavouriteColours.Where(fc => fc.PersonId == id);
-            _context.FavouriteColours.RemoveRange(favouriteColors);
-
-            foreach (var cid in model.ColourIds ?? new int[0])
-            {
-                entity.FavouriteColours.Add(new FavouriteColours()
-                {
-                    ColourId = cid,
-                });
-            }
-
-            _context.SaveChanges();
-            return Ok(model);
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var entity = _context.People.Find(id);
-
-            if (entity == null)
+            try
+            {
+                return NoContent();
+            }
+            catch (EntityNotFoundException)
             {
                 return BadRequest();
             }
-
-            var favouriteColors = _context.FavouriteColours.Where(fc => fc.PersonId == id);
-            _context.FavouriteColours.RemoveRange(favouriteColors);
-
-            _context.Remove(entity);
-            _context.SaveChanges();
-            return NoContent();
         }
     }
 }
